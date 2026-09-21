@@ -10,7 +10,7 @@ env:
   TAG_NAME: win7-ultimate-amd64
   FINAL_ISO_NAME: cn-win7-Ultimate-SP1-amd64-UpdatePack7R2-260115
 jobs:
-  Build win7 with UpdatePack7R2:
+  Build-win7-with-UpdatePack7R2:
     runs-on: windows-latest
     timeout-minutes: 300
     steps:
