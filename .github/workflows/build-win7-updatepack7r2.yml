@@ -176,7 +176,7 @@ jobs:
           Get-ChildItem -Recurse
           Remove-Item -Path "./dist/*.iso" -Force
           Move-Item -Path "C:/WINDOWS/UpdatePack7.log" -Destination "./UpdatePack7.log" -Force -ErrorAction SilentlyContinue
-          Move-Item -Path "./src/dism_export.log" -Destination "./dism_export.log" -Force -ErrorAction SilentlyContinue
+          Move-Item -Path "./original/dism_export.log" -Destination "./dism_export.log" -Force -ErrorAction SilentlyContinue
 
       - name: Step-9 Delete Old Release
         if: ${{ always() }}
