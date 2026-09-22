@@ -103,8 +103,11 @@ jobs:
         run: |
           set "FULL_INSTALL_DIR=%GITHUB_WORKSPACE%\original\win7original\sources\install.wim"
           set "FULL_BOOT_DIR=%GITHUB_WORKSPACE%\original\win7original\sources\boot.wim"
+          echo FULL_INSTALL_DIR = %FULL_INSTALL_DIR%
+          echo FULL_BOOT_DIR = %FULL_BOOT_DIR%
+          #D:\a\win7-update-integration\win7-update-integration\original\win7original
           cd
-          dir
+          dir /s
           .\UpdatePack7R2.exe /WimFile=%FULL_INSTALL_DIR% /Boot=%FULL_BOOT_DIR% /Index=* /NVMe /Optimize
       
       - name: Step-7 Repack to ISO
