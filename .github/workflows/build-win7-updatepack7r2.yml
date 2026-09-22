@@ -24,7 +24,7 @@ jobs:
           mkdir -Force addons
           mkdir -Force utils
           mkdir -Force dist
-          
+
       - name: Step-2 Get Addons Files
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -36,11 +36,11 @@ jobs:
           # dotNetFx48
           gh release download --repo abbodi1406/dotNetFx4xW7A --pattern "*.WA" --dir ./
           # dotNetFx472
-          gh release download 19.03.19 --repo abbodi1406/dotNetFx4xW7A --pattern "dotNetFx472*.WA" --dir ./
+          #gh release download 19.03.19 --repo abbodi1406/dotNetFx4xW7A --pattern "dotNetFx472*.WA" --dir ./
           # dotNetFx48LP
           gh release download 19.04.13 --repo abbodi1406/dotNetFx4xW7A --pattern "*CHS.WA" --dir ./
           # dotNetFx472LP
-          gh release download win7-ultimate-amd64 --repo vaesn/win-iso-archive --pattern "*CHS.WA" --dir ./
+          #gh release download win7-ultimate-amd64 --repo vaesn/win-iso-archive --pattern "*CHS.WA" --dir ./
           # vcredist [https://gitlab.com/stdout12/adns/-/releases] 
           curl -L -o vcredist_x64_Win7.WA https://gitlab.com/-/project/11037551/uploads/8899c68cf5b5bfc7da7f04b73afa9f58/vcredist_x64_Win7_20250708.WA
           curl -L -o vcredist_x86_Win7.WA https://gitlab.com/-/project/11037551/uploads/49d56348397669befad302f58070ab2f/vcredist_x86_Win7_20250708_r.WA
@@ -49,7 +49,7 @@ jobs:
           curl -L -o UpdatePack7R2.exe https://github.com/vaesn/win-iso-archive/releases/download/win7-ultimate-amd64/UpdatePack7R2.exe
           Write-Host "下载完成，文件列表："
           Get-ChildItem -Recurse
-          
+
       - name: Step-3 Get Utiles
         shell: pwsh
         working-directory: ./utils
@@ -60,7 +60,7 @@ jobs:
           7z x wimlib.zip -o"wimlib" -y
           Write-Host "下载完成，文件列表："
           Get-ChildItem -Recurse
-          
+
       - name: Step-4 Get ISO Files
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -77,7 +77,7 @@ jobs:
           Remove-Item -Path "*.iso" -Force
           Write-Host "文件列表："
           Get-ChildItem -Recurse
-          
+
       - name: Step-5 Extract Source ISO Ultimate Index=4
         working-directory: ./original
         shell: pwsh
@@ -96,7 +96,7 @@ jobs:
           Move-Item -Path "../autounattend.xml" -Destination "./win7original/" -Force
           Move-Item -Path "./install.wim" -Destination "./win7original/sources/" -Force
           Get-ChildItem -Recurse
-      
+
       - name: Step-6 Integrate Updates By UpdatePack7R2
         shell: cmd
         working-directory: ./addons
@@ -111,13 +111,13 @@ jobs:
           .\UpdatePack7R2.exe /WimFile=%FULL_INSTALL_DIR% /Boot=%FULL_BOOT_DIR% /Index=* /NVMe /Optimize
           echo FULL_INSTALL_DIR = %FULL_INSTALL_DIR%
           echo FULL_BOOT_DIR = %FULL_BOOT_DIR%
-      
+
       - name: Step-7 Repack to ISO
         shell: pwsh
         working-directory: .
         run: |
           #.\utils\oscdimg\oscdimg.exe -m -u2 -o -bootdata:2#p0,e,b.\original\win7original\boot\etfsboot.com#pEF,e,b.\original\win7original\efi\microsoft\boot\efisys.bin .\original\win7original .\dist\cn_win7_ultimate_sp1_amd64_UpdatePack7R2_260115.iso -lcn_win7_ultimate_sp1_amd64_UpdatePack7R2_260115
-          
+
           .\utils\oscdimg\oscdimg.exe `
               -m `
               -u2 `
@@ -126,7 +126,7 @@ jobs:
               .\original\win7original `
               .\dist\cn-win7-ult-amd64-UpdatePack7R2.iso `
               -lCN_WIN7_ULT_AMD64_UP7R2
-          
+
       - name: Step-8 Split Archive
         shell: pwsh
         working-directory: .
@@ -187,7 +187,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         shell: bash
         run: gh release delete ${{ env.TAG_NAME }} --cleanup-tag -y || true
-        
+
       - name: Step-10 Delete past completed runs of this workflow
         if: ${{ always() }}
         continue-on-error: true
@@ -203,7 +203,7 @@ jobs:
                 [ "$run_id" = "${{ github.run_id }}" ] && continue
                 gh run delete "$run_id" || true
               done
-              
+
       - name: Step-11 Build New Release
         uses: softprops/action-gh-release@v3
         with:
