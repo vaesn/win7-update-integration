@@ -211,7 +211,7 @@ jobs:
           overwrite_files: true
           body: |
             ## ${{ env.FINAL_ISO_NAME }}
-            - **ARTIFACT**: cn-win7-Ultimate-SP1-amd64-UpdatePack7R2-260115.iso
+            - **ARTIFACT**: cn-win7-ult-amd64-UpdatePack7R2.iso
             - **SHA256**: ${{ env.SHA256 }}
             - **ORIGINAL**: cn_windows_7_ultimate_with_sp1_x64_dvd_u_677408.iso
             - **File Size**: ${{ env.ISO_SIZEMB }} 、 ${{ env.ISO_SIZEGB }}
