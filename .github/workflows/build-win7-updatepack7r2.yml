@@ -103,12 +103,12 @@ jobs:
         run: |
           set "FULL_INSTALL_DIR=%GITHUB_WORKSPACE%\original\win7original\sources\install.wim"
           set "FULL_BOOT_DIR=%GITHUB_WORKSPACE%\original\win7original\sources\boot.wim"
-          echo FULL_INSTALL_DIR = %FULL_INSTALL_DIR%
-          echo FULL_BOOT_DIR = %FULL_BOOT_DIR%
           #D:\a\win7-update-integration\win7-update-integration\original\win7original
           cd
           dir /s
           .\UpdatePack7R2.exe /WimFile=%FULL_INSTALL_DIR% /Boot=%FULL_BOOT_DIR% /Index=* /NVMe /Optimize
+          echo FULL_INSTALL_DIR = %FULL_INSTALL_DIR%
+          echo FULL_BOOT_DIR = %FULL_BOOT_DIR%
       
       - name: Step-7 Repack to ISO
         shell: pwsh
@@ -123,7 +123,7 @@ jobs:
               -bootdata:2#p0,e,b.\original\win7original\boot\etfsboot.com#pEF,e,b.\original\win7original\efi\microsoft\boot\efisys.bin `
               .\original\win7original `
               .\dist\cn-win7-Ultimate-SP1-amd64-UpdatePack7R2-260115.iso `
-              -lcn-win7-Ultimate-SP1-amd64-UpdatePack7R2-260115
+              -lWIN7_ULT_AMD64_UPD7R2
           
       - name: Step-8 Split Archive
         shell: pwsh
