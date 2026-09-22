@@ -1,4 +1,4 @@
-name: win7-ultimate-amd64-UpdatePack7R2
+name: win7-ult-amd64-UpdatePack7R2
 on: workflow_dispatch
 permissions:
   contents: write
@@ -7,10 +7,10 @@ concurrency:
   group: ${{ github.workflow }}
   cancel-in-progress: false
 env:
-  TAG_NAME: win7-ultimate-amd64
-  FINAL_ISO_NAME: cn-win7-Ultimate-SP1-amd64-UpdatePack7R2-260115
+  TAG_NAME: win7-ult-amd64
+  FINAL_ISO_NAME: cn-win7-ult-amd64-UpdatePack7R2
 jobs:
-  Build-win7-with-UpdatePack7R2:
+  Build-win7-UpdatePack7R2:
     runs-on: windows-latest
     timeout-minutes: 300
     steps:
@@ -104,6 +104,8 @@ jobs:
           set "FULL_INSTALL_DIR=%GITHUB_WORKSPACE%\original\win7original\sources\install.wim"
           set "FULL_BOOT_DIR=%GITHUB_WORKSPACE%\original\win7original\sources\boot.wim"
           #D:\a\win7-update-integration\win7-update-integration\original\win7original
+          echo FULL_INSTALL_DIR = %FULL_INSTALL_DIR%
+          echo FULL_BOOT_DIR = %FULL_BOOT_DIR%
           cd
           dir /s
           .\UpdatePack7R2.exe /WimFile=%FULL_INSTALL_DIR% /Boot=%FULL_BOOT_DIR% /Index=* /NVMe /Optimize
@@ -122,8 +124,8 @@ jobs:
               -o `
               -bootdata:2#p0,e,b.\original\win7original\boot\etfsboot.com#pEF,e,b.\original\win7original\efi\microsoft\boot\efisys.bin `
               .\original\win7original `
-              .\dist\cn-win7-Ultimate-SP1-amd64-UpdatePack7R2-260115.iso `
-              -lWIN7_ULT_AMD64_UPD7R2
+              .\dist\cn-win7-ult-amd64-UpdatePack7R2.iso `
+              -lCN_WIN7_ULT_AMD64_UP7R2
           
       - name: Step-8 Split Archive
         shell: pwsh
@@ -161,8 +163,8 @@ jobs:
               "-t7z",
               "-v${VolumeSizeArg}",
               "-mx=0",
-              "./cn-win7-Ultimate-SP1-amd64-UpdatePack7R2-260115.7z", 
-              "./dist/cn-win7-Ultimate-SP1-amd64-UpdatePack7R2-260115.iso" 
+              "./cn-win7-ult-amd64-UpdatePack7R2.7z", 
+              "./dist/cn-win7-ult-amd64-UpdatePack7R2.iso" 
           )
           Write-Host "Executing 7z with arguments: $Args7z"
           # 7z a -t7z -v1536M -mx=0 ./${{ env.FINAL_ISO_NAME }}.7z ./dist/${{ env.FINAL_ISO_NAME }}.iso
