@@ -36,11 +36,11 @@ jobs:
           # dotNetFx48
           gh release download --repo abbodi1406/dotNetFx4xW7A --pattern "*.WA" --dir ./
           # dotNetFx472
-          #gh release download 19.03.19 --repo abbodi1406/dotNetFx4xW7A --pattern "dotNetFx472*.WA" --dir ./
+          gh release download 19.03.19 --repo abbodi1406/dotNetFx4xW7A --pattern "dotNetFx472*.WA" --dir ./
           # dotNetFx48LP
           gh release download 19.04.13 --repo abbodi1406/dotNetFx4xW7A --pattern "*CHS.WA" --dir ./
           # dotNetFx472LP
-          #gh release download win7-ultimate-amd64 --repo vaesn/win-iso-archive --pattern "*CHS.WA" --dir ./
+          gh release download win7-ultimate-amd64 --repo vaesn/win-iso-archive --pattern "*CHS.WA" --dir ./
           # vcredist [https://gitlab.com/stdout12/adns/-/releases] 
           curl -L -o vcredist_x64_Win7.WA https://gitlab.com/-/project/11037551/uploads/8899c68cf5b5bfc7da7f04b73afa9f58/vcredist_x64_Win7_20250708.WA
           curl -L -o vcredist_x86_Win7.WA https://gitlab.com/-/project/11037551/uploads/49d56348397669befad302f58070ab2f/vcredist_x86_Win7_20250708_r.WA
@@ -101,8 +101,8 @@ jobs:
         shell: cmd
         working-directory: ./addons
         run: |
-          set "FULL_INSTALL_DIR=%GITHUB_WORKSPACE%/original/win7original/sources/install.wim"
-          set "FULL_BOOT_DIR=%GITHUB_WORKSPACE%/original/win7original/sources/boot.wim"
+          set "FULL_INSTALL_DIR=%GITHUB_WORKSPACE%\original\win7original\sources\install.wim"
+          set "FULL_BOOT_DIR=%GITHUB_WORKSPACE%\original\win7original\sources\boot.wim"
           cd
           dir
           .\UpdatePack7R2.exe /WimFile=%FULL_INSTALL_DIR% /Boot=%FULL_BOOT_DIR% /Index=* /NVMe /Optimize
