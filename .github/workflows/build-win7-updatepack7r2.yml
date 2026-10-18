@@ -33,7 +33,7 @@ jobs:
         working-directory: ./addons
         run: |
           # DirectX_June2010 [http://komisar.gin.by/tools/u/]
-          gh release download win7-ultimate-x64 --repo vaesn/win-iso-archive --pattern "DirectX*.WA" --dir ./
+          gh release download win7-ult-x64 --repo vaesn/win-iso-archive --pattern "DirectX*.WA" --dir ./
           # dotNetFx48
           gh release download --repo abbodi1406/dotNetFx4xW7A --pattern "*.WA" --dir ./
           # dotNetFx472
@@ -41,14 +41,14 @@ jobs:
           # dotNetFx48LP
           gh release download 19.04.13 --repo abbodi1406/dotNetFx4xW7A --pattern "*CHS.WA" --dir ./
           # dotNetFx472LP
-          #gh release download win7-ultimate-x64 --repo vaesn/win-iso-archive --pattern "*CHS.WA" --dir ./
+          #gh release download win7-ult-x64 --repo vaesn/win-iso-archive --pattern "*CHS.WA" --dir ./
           # vcredist [https://gitlab.com/stdout12/adns/-/releases] 
           curl -L -o vcredist_x64_Win7.WA "https://gitlab.com/-/project/11037551/uploads/8899c68cf5b5bfc7da7f04b73afa9f58/vcredist_x64_Win7_20250708.WA"
           curl -L -o vcredist_x86_Win7.WA "https://gitlab.com/-/project/11037551/uploads/49d56348397669befad302f58070ab2f/vcredist_x86_Win7_20250708_r.WA"
           # SmartFix
           curl -L -o SmartFix.exe "https://smartfix.pro/SmartFix.exe"
-          gh release download win7-ultimate-x64 --repo vaesn/win-iso-archive --pattern "UpdatePack7R2.exe" --dir ./
-          
+          gh release download win7-ult-x64 --repo vaesn/win-iso-archive --pattern "UpdatePack7R2.exe" --dir ./
+
           Write-Host "下载完成，文件列表："
           Get-ChildItem -File -Recurse
 
@@ -69,7 +69,7 @@ jobs:
         shell: pwsh
         working-directory: ./original
         run: |
-          gh release download win7-ultimate-x64 --repo vaesn/win-iso-archive --pattern "*677408.7z.*" --dir ./
+          gh release download win7-ult-x64 --repo vaesn/win-iso-archive --pattern "*677408.7z.*" --dir ./
           7z x *677408.7z.001 -y
           Start-Sleep -Seconds 3
           Rename-Item -Path "*677408.iso" -NewName "win7original.iso"
@@ -107,9 +107,9 @@ jobs:
           set "FULL_BOOT_DIR=%GITHUB_WORKSPACE%\original\win7original\sources\boot.wim"
           echo FULL_INSTALL_DIR = %FULL_INSTALL_DIR%
           echo FULL_BOOT_DIR = %FULL_BOOT_DIR%
-          
-          .\UpdatePack7R2.exe /WimFile=%FULL_INSTALL_DIR% /Boot=%FULL_BOOT_DIR% /Index=* /NVMe /Optimize
-          
+
+          UpdatePack7R2.exe /WimFile=%FULL_INSTALL_DIR% /Boot=%FULL_BOOT_DIR% /Index=* /NVMe /Optimize
+
           echo UpdatePack7R2 Done...
 
       - name: Step-7 Repack to ISO
@@ -138,29 +138,29 @@ jobs:
           $MaxDiffMB    = 128
           Remove-Item -Path "./original/win7original" -Recurse -Force
           $Iso = Get-ChildItem -Path "./dist" -Filter "*.iso" -File | Select-Object -First 1
-          
+
           $BaseName  = $Iso.BaseName
           $IsoLength = $Iso.Length
           $IsoDir    = $Iso.DirectoryName
           $IsoFull   = $Iso.FullName
-          
+
           $FullHash = (Get-FileHash -Path $IsoFull -Algorithm SHA256).Hash.ToLower()
           $ShortHash = $FullHash.Substring($FullHash.Length - 8)
           $NewFileName = "${BaseName}_${ShortHash}.iso"
           $NewFilePath = Join-Path -Path $IsoDir -ChildPath $NewFileName
           Rename-Item -Path $IsoFull -NewName $NewFileName -Force
-          
+
           $SizeInMB    = $IsoLength / 1MB
           $SizeInGB    = $IsoLength / 1GB
-          
+
           $TotalMB = [Math]::Ceiling($SizeInMB)
           $N       = [Math]::Ceiling($TotalMB / ($MaxVolMB - $Reserve))
           $S       = [Math]::Ceiling($TotalMB / $N) + $Reserve
           $Last    = $TotalMB - $S * ($N - 1)
           $Diff    = $S - $Last
-          
+
           $VolumeSizeArg = "${S}M"
-          
+
           $EnvVars = @(
             "ISO_SIZEMB={0:N2} MB" -f $SizeInMB
             "ISO_SIZEGB={0:N2} GB" -f $SizeInGB
@@ -210,7 +210,7 @@ jobs:
           Write-Host ("差值  : {0:N2} MB" -f ($max - $min))
 
           Remove-Item -Path "./dist/*Pack7R2.iso" -Force
-          
+
           Move-Item -Path "C:/WINDOWS/UpdatePack7.log" -Destination "./assets/UpdatePack7.log" -Force -ErrorAction SilentlyContinue
           Move-Item -Path "./original/dism_export.log" -Destination "./assets/dism_export.log" -Force -ErrorAction SilentlyContinue
 
