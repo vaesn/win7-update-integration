@@ -261,7 +261,7 @@ jobs:
           Write-Host "========================================" -ForegroundColor Cyan
 
       - name: Step-9 Delete Old Release
-        if: ${{ always() }}
+        if: ${{ success() }}
         continue-on-error: true
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -269,7 +269,7 @@ jobs:
         run: gh release delete "${{ env.TAG_NAME }}" --cleanup-tag -y || true
 
       - name: Step-10 Delete past completed runs of this workflow
-        if: ${{ always() }}
+        if: ${{ success() }}
         continue-on-error: true
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
