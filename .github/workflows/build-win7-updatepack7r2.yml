@@ -108,7 +108,7 @@ jobs:
           echo FULL_INSTALL_DIR = %FULL_INSTALL_DIR%
           echo FULL_BOOT_DIR = %FULL_BOOT_DIR%
 
-          UpdatePack7R2.exe /WimFile=%FULL_INSTALL_DIR% /Boot=%FULL_BOOT_DIR% /Index=* /NVMe /Optimize
+          UpdatePack7R2.exe /WimFile=%FULL_INSTALL_DIR% /Boot=%FULL_BOOT_DIR% /Index=* /NVMe /Optimize=esd
 
           echo UpdatePack7R2 Done...
 
